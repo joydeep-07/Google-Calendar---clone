@@ -52,7 +52,7 @@ export const googleCallback = (req, res, next) => {
   passport.authenticate('google', { session: false }, (err, user, info) => {
     if (err || !user) {
       const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
-      return res.redirect(`${clientUrl}/login?error=OAuthFailed`);
+      return res.redirect(`${clientUrl}/?error=OAuthFailed`);
     }
 
     const token = generateToken(user);
@@ -64,7 +64,7 @@ export const googleCallback = (req, res, next) => {
     });
 
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
-    return res.redirect(`${clientUrl}/calendar?token=${token}`);
+    return res.redirect(`${clientUrl}/?token=${token}`);
   })(req, res, next);
 };
 

@@ -9,9 +9,10 @@ import dayjs from 'dayjs';
 
 interface AppLayoutProps {
   children: React.ReactNode;
+  onOpenProfile?: () => void;
 }
 
-export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+export const AppLayout: React.FC<AppLayoutProps> = ({ children, onOpenProfile }) => {
   const dispatch = useDispatch<AppDispatch>();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -57,6 +58,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         onPrevMonth={handlePrevMonth}
         onNextMonth={handleNextMonth}
         onToday={handleToday}
+        onOpenProfile={onOpenProfile}
       />
 
       <Box sx={{ display: 'flex', flexGrow: 1, height: 'calc(100vh - var(--navbar-height))', overflow: 'hidden' }}>

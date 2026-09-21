@@ -33,7 +33,7 @@ export const sendReminderEmail = async ({ to, userTitle, eventTitle, description
   const htmlContent = `
     <div style="font-family: 'Google Sans', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e8eaed; border-radius: 12px; background-color: #ffffff;">
       <div style="border-bottom: 2px solid #1a73e8; padding-bottom: 12px; margin-bottom: 20px;">
-        <h2 style="color: #1a73e8; margin: 0; font-size: 22px;">📅 Google Calendar Reminder</h2>
+        <h2 style="color: #1a73e8; margin: 0; font-size: 22px;"> Calendar Reminder</h2>
       </div>
 
       <p style="color: #3c4043; font-size: 16px;">Hello ${userTitle || 'User'},</p>
@@ -41,9 +41,9 @@ export const sendReminderEmail = async ({ to, userTitle, eventTitle, description
 
       <div style="background-color: #f8fafd; border-left: 4px solid #1a73e8; padding: 16px; margin: 20px 0; border-radius: 4px;">
         <h3 style="margin: 0 0 8px 0; color: #202124; font-size: 18px;">${eventTitle}</h3>
-        <p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong>⏰ Time:</strong> ${formattedStart} – ${formattedEnd}</p>
-        ${location ? `<p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong>📍 Location:</strong> ${location}</p>` : ''}
-        ${description ? `<p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong>📝 Description:</strong> ${description}</p>` : ''}
+        <p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong> Time:</strong> ${formattedStart} – ${formattedEnd}</p>
+        ${location ? `<p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong> Location:</strong> ${location}</p>` : ''}
+        ${description ? `<p style="margin: 4px 0; color: #5f6368; font-size: 14px;"><strong> Description:</strong> ${description}</p>` : ''}
       </div>
 
       <p style="color: #80868b; font-size: 12px; margin-top: 30px; text-align: center;">

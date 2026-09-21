@@ -18,6 +18,7 @@
      Text
   ================================= */
   --text-primary: #202124;
+  --text-main: #202124;
   --text-secondary: #5f6368;
   --text-tertiary: #80868b;
   --text-disabled: #9aa0a6;
@@ -56,6 +57,7 @@
   ================================= */
   --border-primary: #dadce0;
   --border-secondary: #e8eaed;
+  --border-light: #e8eaed;
   --border-focus: #1a73e8;
 
   /* ================================
@@ -161,6 +163,7 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 /* =================================
@@ -173,12 +176,12 @@ body {
 }
 
 /* =================================
-   Scrollbar
+   Scrollbar Customization
 ================================= */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -255,9 +258,4 @@ body {
     background: var(--bg-hover);
     color: var(--text-primary);
   }
-}
-
-
-::-webkit-scrollbar{
-  display: none;
 }

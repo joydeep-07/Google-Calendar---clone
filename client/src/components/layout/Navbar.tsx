@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,9 +8,6 @@ import {
   Avatar,
   Box,
   InputBase,
-  Menu,
-  MenuItem,
-  Divider,
   Tooltip,
 } from "@mui/material";
 import {
@@ -18,15 +15,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Search as SearchIcon,
-  Logout as LogoutIcon,
-  AccountCircle as ProfileIcon,
   CalendarMonth as CalendarLogoIcon,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
-import { logoutUser } from "../../redux/authSlice";
 import { setSearchQuery } from "../../redux/eventSlice";
-import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 interface NavbarProps {
@@ -34,6 +27,7 @@ interface NavbarProps {
   onPrevMonth: () => void;
   onNextMonth: () => void;
   onToday: () => void;
+  onOpenProfile?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -41,33 +35,18 @@ export const Navbar: React.FC<NavbarProps> = ({
   onPrevMonth,
   onNextMonth,
   onToday,
+  onOpenProfile,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
   const { currentDate, searchQuery } = useSelector(
     (state: RootState) => state.events,
   );
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    handleCloseUserMenu();
-    dispatch(logoutUser());
-    navigate("/login");
-  };
-
-  const handleNavigateProfile = () => {
-    handleCloseUserMenu();
-    navigate("/profile");
+  const handleAvatarClick = () => {
+    if (onOpenProfile) {
+      onOpenProfile();
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +87,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               gap: 1,
               cursor: "pointer",
             }}
-            onClick={() => navigate("/calendar")}
           >
             <CalendarLogoIcon
               sx={{ color: "var(--google-blue)", fontSize: 30 }}
@@ -222,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {user && (
             <Box>
               <Tooltip title={user.name || user.email}>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0.5 }}>
+                <IconButton onClick={handleAvatarClick} sx={{ p: 0.5 }}>
                   <Avatar
                     alt={user.name}
                     src={user.avatar}
@@ -236,155 +214,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </Avatar>
                 </IconButton>
               </Tooltip>
-
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleCloseUserMenu}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
-                slotProps={{
-                  paper: {
-                    elevation: 3,
-                    sx: {
-                      borderRadius: "var(--radius-lg)",
-                      minWidth: 220,
-                      mt: 1,
-                      p: 1,
-                    },
-                  },
-                }}
-              >
-                <div className="min-w-[280px]">
-                  <Box>
-                    {/* User Header */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1.5,
-                        p: 1.25,
-                        borderRadius: "14px",
-                      }}
-                    >
-                      <Avatar
-                        alt={user.name}
-                        src={user.avatar}
-                        sx={{
-                          width: 44,
-                          height: 44,
-                          flexShrink: 0,
-                          bgcolor: "var(--google-blue)",
-                          color: "#fff",
-                          fontSize: "17px",
-                          fontWeight: 600,
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                        }}
-                      >
-                        {user.name ? user.name.charAt(0).toUpperCase() : "U"}
-                      </Avatar>
-
-                      <Box sx={{ minWidth: 0, flex: 1 }}>
-                        <Typography
-                          noWrap
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            color: "var(--text-main)",
-                            lineHeight: 1.4,
-                          }}
-                        >
-                          {user.name}
-                        </Typography>
-
-                        <Typography
-                          noWrap
-                          sx={{
-                            mt: 0.25,
-                            fontSize: "12px",
-                            color: "var(--text-secondary)",
-                            lineHeight: 1.4,
-                          }}
-                        >
-                          {user.email}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-
-                  {/* <Divider
-                    sx={{
-                      borderColor: "var(--border-light)",
-                    }}
-                  /> */}
-
-                  {/* Menu Items */}
-                  <Box sx={{ px: 1, py: 1 }}>
-                    <MenuItem
-                      onClick={handleNavigateProfile}
-                      sx={{
-                        minHeight: 42,
-                        borderRadius: "10px",
-                        px: 1.5,
-                        gap: 1.5,
-                        color: "var(--text-main)",
-                        transition: "background-color 0.2s ease",
-
-                        "&:hover": {
-                          backgroundColor: "var(--bg-secondary)",
-                        },
-                      }}
-                    >
-                      <ProfileIcon
-                        sx={{
-                          fontSize: 20,
-                          color: "var(--text-secondary)",
-                        }}
-                      />
-
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                        }}
-                      >
-                        My Profile
-                      </Typography>
-                    </MenuItem>
-
-                    <MenuItem
-                      onClick={handleLogout}
-                      sx={{
-                        minHeight: 42,
-                        borderRadius: "10px",
-                        px: 1.5,
-                        gap: 1.5,
-                        color: "var(--google-red)",
-                        transition: "background-color 0.2s ease",
-
-                        "&:hover": {
-                          backgroundColor: "rgba(234, 67, 53, 0.08)",
-                        },
-                      }}
-                    >
-                      <LogoutIcon
-                        sx={{
-                          fontSize: 20,
-                        }}
-                      />
-
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Logout
-                      </Typography>
-                    </MenuItem>
-                  </Box>
-                </div>
-              </Menu>
             </Box>
           )}
         </Box>
