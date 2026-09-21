@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,7 +12,7 @@ import {
   MenuItem,
   Divider,
   Tooltip,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Menu as MenuIcon,
   ChevronLeft,
@@ -21,13 +21,13 @@ import {
   Logout as LogoutIcon,
   AccountCircle as ProfileIcon,
   CalendarMonth as CalendarLogoIcon,
-} from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../redux/store';
-import { logoutUser } from '../../redux/authSlice';
-import { setSearchQuery } from '../../redux/eventSlice';
-import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
+} from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { logoutUser } from "../../redux/authSlice";
+import { setSearchQuery } from "../../redux/eventSlice";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 interface NavbarProps {
   onToggleSidebar: () => void;
@@ -45,7 +45,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { currentDate, searchQuery } = useSelector((state: RootState) => state.events);
+  const { currentDate, searchQuery } = useSelector(
+    (state: RootState) => state.events,
+  );
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -60,19 +62,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleLogout = () => {
     handleCloseUserMenu();
     dispatch(logoutUser());
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleNavigateProfile = () => {
     handleCloseUserMenu();
-    navigate('/profile');
+    navigate("/profile");
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
   };
 
-  const formattedMonthYear = dayjs(currentDate).format('MMMM YYYY');
+  const formattedMonthYear = dayjs(currentDate).format("MMMM YYYY");
 
   return (
     <AppBar
@@ -80,34 +82,46 @@ export const Navbar: React.FC<NavbarProps> = ({
       color="default"
       elevation={0}
       sx={{
-        backgroundColor: 'var(--bg-primary)',
-        borderBottom: '1px solid var(--border-primary)',
-        height: 'var(--navbar-height)',
-        justifyContent: 'center',
+        backgroundColor: "var(--bg-primary)",
+        borderBottom: "1px solid var(--border-primary)",
+        height: "var(--navbar-height)",
+        justifyContent: "center",
       }}
     >
-      <Toolbar sx={{ px: { xs: 1, sm: 2 }, justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+      <Toolbar sx={{ px: { xs: 1, sm: 2 }, justifyContent: "space-between" }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}
+        >
           <IconButton
             onClick={onToggleSidebar}
             edge="start"
             aria-label="menu"
-            sx={{ color: 'var(--text-secondary)' }}
+            sx={{ color: "var(--text-secondary)" }}
           >
             <MenuIcon />
           </IconButton>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} onClick={() => navigate('/calendar')}>
-            <CalendarLogoIcon sx={{ color: 'var(--google-blue)', fontSize: 30 }} />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/calendar")}
+          >
+            <CalendarLogoIcon
+              sx={{ color: "var(--google-blue)", fontSize: 30 }}
+            />
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{
-                fontFamily: 'var(--font-google)',
+                fontFamily: "var(--font-google)",
                 fontWeight: 500,
-                color: 'var(--text-primary)',
-                display: { xs: 'none', sm: 'block' },
+                color: "var(--text-primary)",
+                display: { xs: "none", sm: "block" },
               }}
             >
               Calendar
@@ -119,31 +133,39 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={onToday}
             sx={{
               ml: { xs: 0.5, sm: 2 },
-              borderRadius: 'var(--radius-sm)',
-              borderColor: 'var(--border-primary)',
-              color: 'var(--text-primary)',
-              textTransform: 'none',
+              borderRadius: "var(--radius-sm)",
+              borderColor: "var(--border-primary)",
+              color: "var(--text-primary)",
+              textTransform: "none",
               fontWeight: 500,
-              fontSize: '14px',
+              fontSize: "14px",
               px: { xs: 1.5, sm: 2 },
-              '&:hover': {
-                backgroundColor: 'var(--bg-hover)',
-                borderColor: 'var(--border-primary)',
+              "&:hover": {
+                backgroundColor: "var(--bg-hover)",
+                borderColor: "var(--border-primary)",
               },
             }}
           >
             Today
           </Button>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Tooltip title="Previous month">
-              <IconButton onClick={onPrevMonth} size="small" sx={{ color: 'var(--text-secondary)' }}>
+              <IconButton
+                onClick={onPrevMonth}
+                size="small"
+                sx={{ color: "var(--text-secondary)" }}
+              >
                 <ChevronLeft />
               </IconButton>
             </Tooltip>
 
             <Tooltip title="Next month">
-              <IconButton onClick={onNextMonth} size="small" sx={{ color: 'var(--text-secondary)' }}>
+              <IconButton
+                onClick={onNextMonth}
+                size="small"
+                sx={{ color: "var(--text-secondary)" }}
+              >
                 <ChevronRight />
               </IconButton>
             </Tooltip>
@@ -152,10 +174,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Typography
             variant="h6"
             sx={{
-              fontFamily: 'var(--font-google)',
+              fontFamily: "var(--font-google)",
               fontWeight: 500,
-              fontSize: { xs: '16px', sm: '20px' },
-              color: 'var(--text-primary)',
+              fontSize: { xs: "16px", sm: "20px" },
+              color: "var(--text-primary)",
               minWidth: { sm: 160 },
             }}
           >
@@ -163,34 +185,36 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' },
-              alignItems: 'center',
-              backgroundColor: 'var(--bg-tertiary)',
-              borderRadius: 'var(--radius-md)',
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              backgroundColor: "var(--bg-tertiary)",
+              borderRadius: "var(--radius-md)",
               px: 2,
               py: 0.5,
               width: 260,
-              transition: 'var(--transition-normal)',
-              '&:focus-within': {
-                backgroundColor: 'var(--bg-primary)',
-                boxShadow: 'var(--shadow-md)',
-                border: '1px solid var(--google-blue)',
+              transition: "var(--transition-normal)",
+              "&:focus-within": {
+                backgroundColor: "var(--bg-primary)",
+                boxShadow: "var(--shadow-md)",
+                border: "1px solid var(--google-blue)",
               },
             }}
           >
-            <SearchIcon sx={{ color: 'var(--text-secondary)', mr: 1, fontSize: 20 }} />
+            <SearchIcon
+              sx={{ color: "var(--text-secondary)", mr: 1, fontSize: 20 }}
+            />
             <InputBase
               placeholder="Search events"
               value={searchQuery}
               onChange={handleSearchChange}
               sx={{
-                fontSize: '14px',
-                fontFamily: 'var(--font-body)',
-                color: 'var(--text-primary)',
-                width: '100%',
+                fontSize: "14px",
+                fontFamily: "var(--font-body)",
+                color: "var(--text-primary)",
+                width: "100%",
               }}
             />
           </Box>
@@ -202,9 +226,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <Avatar
                     alt={user.name}
                     src={user.avatar}
-                    sx={{ width: 36, height: 36, bgcolor: 'var(--google-blue)' }}
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      bgcolor: "var(--google-blue)",
+                    }}
                   >
-                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </Avatar>
                 </IconButton>
               </Tooltip>
@@ -213,13 +241,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleCloseUserMenu}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
                 slotProps={{
                   paper: {
                     elevation: 3,
                     sx: {
-                      borderRadius: 'var(--radius-lg)',
+                      borderRadius: "var(--radius-lg)",
                       minWidth: 220,
                       mt: 1,
                       p: 1,
@@ -227,23 +255,135 @@ export const Navbar: React.FC<NavbarProps> = ({
                   },
                 }}
               >
-                <Box sx={{ px: 2, py: 1 }}>
-                  <Typography variant="subtitle1" noWrap sx={{ fontWeight: 600 }}>
-                    {user.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" noWrap>
-                    {user.email}
-                  </Typography>
-                </Box>
-                <Divider sx={{ my: 1 }} />
-                <MenuItem onClick={handleNavigateProfile}>
-                  <ProfileIcon sx={{ mr: 1.5, fontSize: 20, color: 'var(--text-secondary)' }} />
-                  My Profile
-                </MenuItem>
-                <MenuItem onClick={handleLogout} sx={{ color: 'var(--google-red)' }}>
-                  <LogoutIcon sx={{ mr: 1.5, fontSize: 20 }} />
-                  Logout
-                </MenuItem>
+                <div className="min-w-[280px]">
+                  <Box>
+                    {/* User Header */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.5,
+                        p: 1.25,
+                        borderRadius: "14px",
+                      }}
+                    >
+                      <Avatar
+                        alt={user.name}
+                        src={user.avatar}
+                        sx={{
+                          width: 44,
+                          height: 44,
+                          flexShrink: 0,
+                          bgcolor: "var(--google-blue)",
+                          color: "#fff",
+                          fontSize: "17px",
+                          fontWeight: 600,
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                        }}
+                      >
+                        {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                      </Avatar>
+
+                      <Box sx={{ minWidth: 0, flex: 1 }}>
+                        <Typography
+                          noWrap
+                          sx={{
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            color: "var(--text-main)",
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {user.name}
+                        </Typography>
+
+                        <Typography
+                          noWrap
+                          sx={{
+                            mt: 0.25,
+                            fontSize: "12px",
+                            color: "var(--text-secondary)",
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {user.email}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  {/* <Divider
+                    sx={{
+                      borderColor: "var(--border-light)",
+                    }}
+                  /> */}
+
+                  {/* Menu Items */}
+                  <Box sx={{ px: 1, py: 1 }}>
+                    <MenuItem
+                      onClick={handleNavigateProfile}
+                      sx={{
+                        minHeight: 42,
+                        borderRadius: "10px",
+                        px: 1.5,
+                        gap: 1.5,
+                        color: "var(--text-main)",
+                        transition: "background-color 0.2s ease",
+
+                        "&:hover": {
+                          backgroundColor: "var(--bg-secondary)",
+                        },
+                      }}
+                    >
+                      <ProfileIcon
+                        sx={{
+                          fontSize: 20,
+                          color: "var(--text-secondary)",
+                        }}
+                      />
+
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                        }}
+                      >
+                        My Profile
+                      </Typography>
+                    </MenuItem>
+
+                    <MenuItem
+                      onClick={handleLogout}
+                      sx={{
+                        minHeight: 42,
+                        borderRadius: "10px",
+                        px: 1.5,
+                        gap: 1.5,
+                        color: "var(--google-red)",
+                        transition: "background-color 0.2s ease",
+
+                        "&:hover": {
+                          backgroundColor: "rgba(234, 67, 53, 0.08)",
+                        },
+                      }}
+                    >
+                      <LogoutIcon
+                        sx={{
+                          fontSize: 20,
+                        }}
+                      />
+
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Logout
+                      </Typography>
+                    </MenuItem>
+                  </Box>
+                </div>
               </Menu>
             </Box>
           )}
