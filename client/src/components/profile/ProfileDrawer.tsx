@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect } from "react";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import {
   Box,
   Typography,
@@ -9,37 +9,40 @@ import {
   Paper,
   Chip,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Close as CloseIcon,
   Logout as LogoutIcon,
   Email as EmailIcon,
   Schedule as TimezoneIcon,
   Badge as IDIcon,
-  Security as SecurityIcon,
-} from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../redux/store';
-import { logoutUser } from '../../redux/authSlice';
+  Verified as VerifiedIcon,
+} from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { logoutUser } from "../../redux/authSlice";
 
 interface ProfileDrawerProps {
   open: boolean;
   onClose: () => void;
 }
 
-export const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ open, onClose }) => {
+export const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
+  open,
+  onClose,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
 
   // Close drawer on Escape key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === "Escape" && open) {
         onClose();
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
 
   const handleLogout = () => {
@@ -53,176 +56,402 @@ export const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ open, onClose }) =
     <AnimatePresence>
       {open && (
         <>
-          {/* Subtle Dark Backdrop */}
+          {/* Light Backdrop with Soft Blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25 }}
             onClick={onClose}
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(32, 33, 36, 0.4)',
-              backdropFilter: 'blur(3px)',
+              backgroundColor: "rgba(15, 23, 42, 0.2)",
+              backdropFilter: "blur(3px)",
+              WebkitBackdropFilter: "blur(3px)",
               zIndex: 1200,
             }}
           />
 
-          {/* Framer Motion Sliding Panel */}
+          {/* Premium Light Sliding Panel */}
           <motion.div
-            initial={{ x: '100%' }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', ease: [0.25, 1, 0.5, 1], duration: 0.3 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", ease: easeInOut, duration: 0.35 }}
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: 0,
               right: 0,
               bottom: 0,
-              width: '100%',
-              maxWidth: '420px',
-              backgroundColor: 'var(--bg-primary)',
-              boxShadow: 'var(--shadow-lg)',
+              width: "100%",
+              maxWidth: "480px",
+              backgroundColor: "#ffffff",
+              borderLeft: "1px solid rgba(0, 0, 0, 0.06)",
+              boxShadow: "-20px 0 50px rgba(0, 0, 0, 0.08)",
               zIndex: 1201,
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
             }}
           >
-            {/* Header */}
+            {/* Top Bar Header with Close Button */}
             <Box
               sx={{
-                p: 2.5,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: '1px solid var(--border-primary)',
-                backgroundColor: 'var(--bg-secondary)',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                px: 3.5,
+                py: 2.5,
+                borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
               }}
             >
-              <Typography variant="h6" sx={{ fontFamily: 'var(--font-google)', fontWeight: 600 }}>
-                My Profile
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "var(--font-google)",
+                  fontWeight: 600,
+                  color: "#0f172a",
+                  fontSize: "1rem",
+                }}
+              >
+                Profile Overview
               </Typography>
-              <IconButton size="small" onClick={onClose} sx={{ color: 'var(--text-secondary)' }}>
-                <CloseIcon />
+              <IconButton
+                size="small"
+                onClick={onClose}
+                sx={{
+                  color: "rgba(0, 0, 0, 0.6)",
+                  backgroundColor: "rgba(0, 0, 0, 0.03)",
+                  border: "1px solid rgba(0, 0, 0, 0.06)",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    color: "#000",
+                    backgroundColor: "rgba(0, 0, 0, 0.06)",
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                <CloseIcon fontSize="small" />
               </IconButton>
             </Box>
 
             {/* Scrollable Content */}
-            <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {/* User Identity Card */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                <Avatar
-                  src={user.avatar}
-                  alt={user.name}
-                  sx={{ width: 72, height: 72, fontSize: 28, bgcolor: 'var(--google-blue)', boxShadow: 'var(--shadow-sm)' }}
+            <Box
+              sx={{
+                flexGrow: 1,
+                overflowY: "auto",
+                p: 3.5,
+                display: "flex",
+                flexDirection: "column",
+                gap: 3.5,
+                "&::-webkit-scrollbar": { width: "6px" },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  borderRadius: "3px",
+                },
+              }}
+            >
+              {/* User Identity Section */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                  p: 2.5,
+                  borderRadius: "10px",
+                  backgroundColor: "#f8fafc",
+                  border: "1px solid rgba(0, 0, 0, 0.04)",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    borderRadius: "50%",
+                    padding: "3px",
+                  }}
                 >
-                  {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                </Avatar>
-                <Box sx={{ overflow: 'hidden' }}>
-                  <Typography variant="h6" noWrap sx={{ fontFamily: 'var(--font-google)', fontWeight: 600 }}>
+                  <Avatar
+                    src={user.avatar}
+                    alt={user.name}
+                    sx={{
+                      width: 76,
+                      height: 76,
+                      fontSize: 26,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </Avatar>
+                </Box>
+
+                <Box sx={{ overflow: "hidden", flex: 1 }}>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    sx={{
+                      fontFamily: "var(--font-google)",
+                      fontWeight: 600,
+                      color: "#0f172a",
+                      fontSize: "1.1rem",
+                      mb: 0.2,
+                    }}
+                  >
                     {user.name}
                   </Typography>
-                  <Typography variant="body2" color="var(--text-secondary)" noWrap>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "rgba(15, 23, 42, 0.6)", fontSize: "0.85rem" }}
+                    noWrap
+                  >
                     {user.email}
                   </Typography>
                   <Chip
-                    icon={<SecurityIcon style={{ fontSize: 14 }} />}
-                    label="Google Verified Account"
-                    color="success"
+                    icon={
+                      <VerifiedIcon
+                        sx={{
+                          fontSize: "13px !important",
+                          color: "#2563eb !important",
+                        }}
+                      />
+                    }
+                    label="Verified Account"
                     size="small"
-                    variant="outlined"
-                    sx={{ mt: 1, fontWeight: 500, fontSize: '11px' }}
+                    sx={{
+                      mt: 1.2,
+                      height: "22px",
+                      fontWeight: 500,
+                      fontSize: "10px",
+                      letterSpacing: "0.5px",
+                      textTransform: "uppercase",
+                      color: "#2563eb",
+                      backgroundColor: "rgba(37, 99, 235, 0.08)",
+                      border: "1px solid rgba(37, 99, 235, 0.2)",
+                      "& .MuiChip-icon": {
+                        marginLeft: "6px",
+                      },
+                    }}
                   />
                 </Box>
               </Box>
 
-              <Divider />
+              <Divider sx={{ borderColor: "rgba(0, 0, 0, 0.06)" }} />
 
-              {/* Account Details */}
-              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                Account Details
-              </Typography>
-
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                <Paper
-                  elevation={0}
+              {/* Account Details Section */}
+              <Box>
+                <Typography
+                  variant="subtitle2"
                   sx={{
-                    p: 2,
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
+                    fontWeight: 600,
+                    color: "rgba(15, 23, 42, 0.7)",
+                    fontSize: "0.85rem",
+                    letterSpacing: "0.5px",
+                    mb: 2,
+                    textTransform: "uppercase",
                   }}
                 >
-                  <EmailIcon color="action" />
-                  <Box sx={{ overflow: 'hidden' }}>
-                    <Typography variant="caption" color="text.secondary">Email Address</Typography>
-                    <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>{user.email}</Typography>
-                  </Box>
-                </Paper>
+                  Account Details
+                </Typography>
 
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 2,
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                  }}
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
                 >
-                  <IDIcon color="action" />
-                  <Box sx={{ overflow: 'hidden' }}>
-                    <Typography variant="caption" color="text.secondary">User Account ID</Typography>
-                    <Typography variant="body2" noWrap sx={{ fontWeight: 500, fontFamily: 'monospace', fontSize: '12px' }}>
-                      {user._id || user.id}
-                    </Typography>
-                  </Box>
-                </Paper>
+                  {/* Email Detail Card */}
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 2,
+                      backgroundColor: "#f8fafc",
+                      borderRadius: "10px",
+                      border: "1px solid rgba(0, 0, 0, 0.04)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 1,
+                       borderRadius: "100px",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid rgba(0, 0, 0, 0.04)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#475569",
+                      }}
+                    >
+                      <EmailIcon fontSize="small" />
+                    </Box>
+                    <Box sx={{ overflow: "hidden", flex: 1 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: "rgba(15, 23, 42, 0.5)",
+                          fontSize: "11px",
+                          display: "block",
+                        }}
+                      >
+                        Email Address
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{
+                          fontWeight: 500,
+                          color: "#0f172a",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        {user.email}
+                      </Typography>
+                    </Box>
+                  </Paper>
 
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 2,
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                  }}
-                >
-                  <TimezoneIcon color="action" />
-                  <Box sx={{ overflow: 'hidden' }}>
-                    <Typography variant="caption" color="text.secondary">Timezone</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>{user.timezone || 'Asia/Kolkata'}</Typography>
-                  </Box>
-                </Paper>
+                  {/* ID Detail Card */}
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 2,
+                      backgroundColor: "#f8fafc",
+                      borderRadius: "10px",
+                      border: "1px solid rgba(0, 0, 0, 0.04)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 1,
+                       borderRadius: "100px",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid rgba(0, 0, 0, 0.04)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#475569",
+                      }}
+                    >
+                      <IDIcon fontSize="small" />
+                    </Box>
+                    <Box sx={{ overflow: "hidden", flex: 1 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: "rgba(15, 23, 42, 0.5)",
+                          fontSize: "11px",
+                          display: "block",
+                        }}
+                      >
+                        User Account ID
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{
+                          fontWeight: 500,
+                          fontFamily: "monospace",
+                          fontSize: "12px",
+                          color: "#0f172a",
+                        }}
+                      >
+                        {user._id || user.id}
+                      </Typography>
+                    </Box>
+                  </Paper>
+
+                  {/* Timezone Detail Card */}
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 2,
+                      backgroundColor: "#f8fafc",
+                      borderRadius: "10px",
+                      border: "1px solid rgba(0, 0, 0, 0.04)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 1,
+                       borderRadius: "100px",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid rgba(0, 0, 0, 0.04)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#475569",
+                      }}
+                    >
+                      <TimezoneIcon fontSize="small" />
+                    </Box>
+                    <Box sx={{ overflow: "hidden", flex: 1 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: "rgba(15, 23, 42, 0.5)",
+                          fontSize: "11px",
+                          display: "block",
+                        }}
+                      >
+                        Timezone
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 500,
+                          color: "#0f172a",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        {user.timezone || "Asia/Kolkata"}
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </Box>
               </Box>
             </Box>
 
             {/* Footer Action */}
-            <Box sx={{ p: 2.5, borderTop: '1px solid var(--border-primary)', backgroundColor: 'var(--bg-secondary)' }}>
+            <Box
+              sx={{
+                p: 3,
+                borderTop: "1px solid rgba(0, 0, 0, 0.06)",
+                backgroundColor: "#fafafa",
+              }}
+            >
               <Button
-                variant="outlined"
-                color="error"
+                variant="contained"
                 fullWidth
                 startIcon={<LogoutIcon />}
                 onClick={handleLogout}
                 sx={{
-                  borderRadius: 'var(--radius-full)',
-                  py: 1,
-                  textTransform: 'none',
+                  borderRadius: "10px",
+                  py: 1.4,
+                  textTransform: "none",
                   fontWeight: 600,
+                  fontSize: "0.95rem",
+                  letterSpacing: "0.2px",
+                  color: "#dc2626",
+                  backgroundColor: "rgba(220, 38, 38, 0.06)",
+                  border: "1px solid rgba(220, 38, 38, 0.15)",
+                  boxShadow: "none",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: "rgba(220, 38, 38, 0.12)",
+                    borderColor: "rgba(220, 38, 38, 0.3)",
+                    boxShadow: "0 4px 16px rgba(220, 38, 38, 0.12)",
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    transform: "translateY(0)",
+                  },
                 }}
               >
                 Sign Out

@@ -88,9 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               cursor: "pointer",
             }}
           >
-            <CalendarLogoIcon
-              sx={{ color: "var(--google-blue)", fontSize: 30 }}
-            />
+           <img src="./icon.png" className="h-8 w-8" alt="" />
             <Typography
               variant="h6"
               noWrap
