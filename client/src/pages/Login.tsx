@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
               gap: 1,
             }}
           >
-            <CalendarIcon sx={{ fontSize: 56, color: "var(--google-blue)" }} />
+            <img src="./icon.png" className="h-10 w-10" alt="" />
             <Typography
               variant="h5"
               color="var(--text-primary)"

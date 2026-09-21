@@ -71,15 +71,16 @@ export const Navbar: React.FC<NavbarProps> = ({
         <Box
           sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}
         >
-          <IconButton
-            onClick={onToggleSidebar}
-            edge="start"
-            aria-label="menu"
-            sx={{ color: "var(--text-secondary)" }}
-          >
-            <MenuIcon />
-          </IconButton>
-
+          <div className="md:hidden">
+            <IconButton
+              onClick={onToggleSidebar}
+              edge="start"
+              aria-label="menu"
+              sx={{ color: "var(--text-secondary)" }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <Box
             sx={{
               display: "flex",
@@ -88,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               cursor: "pointer",
             }}
           >
-           <img src="./icon.png" className="h-8 w-8" alt="" />
+            <img src="./icon.png" className="h-8 w-8" alt="" />
             <Typography
               variant="h6"
               noWrap
