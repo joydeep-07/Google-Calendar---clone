@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import {
   Box,
-  Button,
   Typography,
   FormGroup,
   FormControlLabel,
@@ -9,8 +8,9 @@ import {
   Divider,
   Paper,
   IconButton,
+  Button,
 } from "@mui/material";
-import { Add as AddIcon, ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { AddIcCallOutlined, ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
 import {
@@ -22,6 +22,7 @@ import {
 import type { EventCategory } from "../../types/event";
 import dayjs from "dayjs";
 import gsap from "gsap";
+import EventFormDrawer from "../events/EventFormDrawer";
 
 const categoryColorMap: Record<EventCategory, string> = {
   Work: "#1a73e8",
@@ -127,34 +128,29 @@ export const Sidebar: React.FC = () => {
       }}
     >
       <Button
-        variant="contained"
-        size="large"
-        startIcon={
-          <AddIcon sx={{ fontSize: 28, color: "var(--google-blue-dark)" }} />
-        }
         onClick={handleCreateClick}
+        variant="outlined"
         sx={{
-          borderRadius: "28px",
-          py: 1.5,
+          height: "48px",
+          borderRadius: "24px",
           px: 3,
-          backgroundColor: "var(--bg-primary)",
-          color: "var(--text-primary)",
-          boxShadow:
-            "0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15)",
-          fontFamily: "var(--font-google)",
-          fontWeight: 500,
-          fontSize: "15px",
           textTransform: "none",
-          justifyContent: "flex-start",
+          borderColor: "var(--border-primary)",
+          color: "var(--text-primary)",
+          fontSize: "14px",
+          fontWeight: 500,
           "&:hover": {
-            backgroundColor: "var(--bg-active)",
-            boxShadow:
-              "0 2px 6px rgba(60,64,67,0.3), 0 6px 10px 4px rgba(60,64,67,0.15)",
+            borderColor: "var(--google-blue-light, #1a73e8)",
+            backgroundColor: "var(--google-blue-light, #1a73e8)",
+            color: "var(--google-blue-dark, #fff)",
           },
+          transition: "all 200ms ease-out",
         }}
       >
-        Create
+        Create Event
       </Button>
+
+      {/* <EventFormDrawer/> */}
 
       <Paper
         elevation={0}
